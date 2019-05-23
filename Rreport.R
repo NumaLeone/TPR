@@ -1,5 +1,5 @@
 
-setwd("C:/Users/numal/Desktop/Facultad/TPR")
+#setwd("C:/Users/numal/Desktop/Facultad/TPR")
 #setwd("C:/Users/Numa/Desktop/PredictorAcademico")
 
 getwd()
