@@ -17,7 +17,7 @@ entry18 <- read_excel("INGRESO 2018-ANON.xlsx")
 entry1819 <- read_excel("INGRESO 2018-2019-ANON.xlsx")
 
 
-
+#2019
 names(entry19)
 entry19 <- entry19[,-19] # aportaba demasiado poco dato la columna de status ingenieria
 entry19 <- rename(entry19, TDB='Tipo.de..Beneficio')
@@ -32,8 +32,16 @@ entry19$Obtiene..BECA[which(entry19$Obtiene..BECA == 'BAJA')] <- NA # elimina lo
 entry19$Obtiene..BECA[which(entry19$Obtiene..BECA == 'Si')] <- "OBTIENE"
 entry19[entry19 == "N/A"] <- NA
 entry19$Obtiene..BECA[which(entry19$Obtiene..BECA == 'No')] <- "NO OBTIENE"
+entry19[entry19=="Cuatrimestral Part Time"] <-"Ingreso Cuatrimestral"
+entry19[entry19=="Cuatrimestral Full Time"] <-"Ingreso Cuatrimestral"
+entry19[entry19=="Cuatrimestral Full Time 19"] <-"Ingreso Cuatrimestral"
+entry19[entry19=="Curso Febrero"] <-"Ingreso Febrero"
+entry19[entry19=="Febrero Libre"] <-"Ingreso Febrero"
+entry19[entry19=="Curso Octubre Nordelta"] <-"Ingreso Febrero"
 
 
+
+#2018
 names(entry18)
 unique(entry18[,1])#son solo numeros random asi q los elimino
 entry18<-entry18[,-1]
