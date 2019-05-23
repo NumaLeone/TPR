@@ -9,9 +9,9 @@ library(dplyr)
 library(tidyr)
 
 
-entry19 <- read_excel("C:/Users/numal/Desktop/Facultad/TPR/INGRESO 2019-ANON.xlsx")
-entry18 <- read_excel("C:/Users/numal/Desktop/Facultad/TPR/INGRESO 2018-ANON.xlsx")
-entry1819 <- read_excel("C:/Users/numal/Desktop/Facultad/TPR/INGRESO 2018-2019-ANON.xlsx")
+#entry19 <- read_excel("C:/Users/numal/Desktop/Facultad/TPR/INGRESO 2019-ANON.xlsx")
+#entry18 <- read_excel("C:/Users/numal/Desktop/Facultad/TPR/INGRESO 2018-ANON.xlsx")
+#entry1819 <- read_excel("C:/Users/numal/Desktop/Facultad/TPR/INGRESO 2018-2019-ANON.xlsx")
 entry19 <- read_excel("INGRESO 2019-ANON.xlsx")
 entry18 <- read_excel("INGRESO 2018-ANON.xlsx")
 entry1819 <- read_excel("INGRESO 2018-2019-ANON.xlsx")
