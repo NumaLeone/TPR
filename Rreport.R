@@ -21,6 +21,8 @@ entry1819 <- read_excel("INGRESO 2018-2019-ANON.xlsx")
 names(entry19)
 entry19 <- entry19[,-19] # aportaba demasiado poco dato la columna de status ingenieria
 entry19 <- rename(entry19, TDB='Tipo.de..Beneficio')
+entry19 <-entry19[,-1] 
+entry19 <-entry19[,-1] 
 
 #filter(entry19, TDB==NA)
 entry19[entry19 == "NA"] <- NA
@@ -36,8 +38,13 @@ entry19[entry19=="Cuatrimestral Part Time"] <-"Ingreso Cuatrimestral"
 entry19[entry19=="Cuatrimestral Full Time"] <-"Ingreso Cuatrimestral"
 entry19[entry19=="Cuatrimestral Full Time 19"] <-"Ingreso Cuatrimestral"
 entry19[entry19=="Curso Febrero"] <-"Ingreso Febrero"
+entry19[entry19=="Curso Febrero MAT"] <-"Ingreso Febrero"
 entry19[entry19=="Febrero Libre"] <-"Ingreso Febrero"
-entry19[entry19=="Curso Octubre Nordelta"] <-"Ingreso Febrero"
+entry19[entry19=="Curso Octubre Nordelta"] <-"Ingreso Octubre"
+entry19[entry19=="Curso Octubre Pilar"] <-"Ingreso Octubre"
+entry19[entry19=="Curso Septiembre"] <-"Ingreso Septiembre"
+entry19[entry19=="Curso Septiembre(Libre)"] <-"Ingreso Septiembre"
+
 
 
 
