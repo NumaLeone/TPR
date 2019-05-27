@@ -20,11 +20,15 @@ entry1819 <- read_excel("INGRESO 2018-2019-ANON.xlsx")
 #2019
 names(entry19)
 entry19 <- entry19[,-19] # aportaba demasiado poco dato la columna de status ingenieria
+entry19<- entry19[,-1]
+entry19<- entry19[,-1]
 entry19 <- rename(entry19, TDB='Tipo.de..Beneficio')
 
 #filter(entry19, TDB==NA)
 entry19[entry19 == "NA"] <- NA
 entry19[entry19 == "N/A"] <- NA
+entry19[entry19 == "AUS" | entry19 == "AUSENTE" | entry19 == "ausente"] <- "A"
+
 
 # > which(entry19$Obtiene..BECA=='BAJA') con esto puedo ver donde esta lo que le paso en esa columna
 
@@ -37,7 +41,12 @@ entry19[entry19=="Cuatrimestral Full Time"] <-"Ingreso Cuatrimestral"
 entry19[entry19=="Cuatrimestral Full Time 19"] <-"Ingreso Cuatrimestral"
 entry19[entry19=="Curso Febrero"] <-"Ingreso Febrero"
 entry19[entry19=="Febrero Libre"] <-"Ingreso Febrero"
-entry19[entry19=="Curso Octubre Nordelta"] <-"Ingreso Febrero"
+entry19[entry19=="Curso Octubre Nordelta"] <-"Ingreso Octubre"
+entry19[entry19=="Curso Febrero MAT"] <- "Ingreso Febrero"
+entry19[entry19=="Curso Octubre Pilar"] <-"Ingreso Octubre"
+entry19[entry19=="Curso Septiembre"] <-"Ingreso Septiembre"
+entry19[entry19=="Curso Septiembre (Libre)"] <-"Ingreso Septiembre"
+
 
 
 
@@ -63,6 +72,8 @@ entry18[entry18=="Ingreso Libre Febrero MAT"]<-"Ingreso Febrero"
 entry18[entry18=="3"]<-"Desaprobado"
 entry18[entry18=="2"]<-"Desaprobado"
 entry18[entry18=="1"]<-"Desaprobado"
+entry18[entry18=="  "]<-NA
+entry18[entry18=="-"]<-NA
 entry18[entry18=="Es pase"]<-""
 entry18[entry18=="Es pase interno"]<-"4"
 entry18[entry18=="AUS"]<-"A"
@@ -107,7 +118,47 @@ entry18[entry18=="Wellspring School (Del Viso)"]<-"Wellspring School"
 entry18[entry18=="E.E.S.T. N°2"]<-"E.E.S.T N°2"
 entry18[entry18=="E.E.S.T. N° 3"]<-"E.E.S.T. N°3"
 
-##ver campo tipo de beneficio
-##ver que hacer con los campos con / en el de beneficio solicitado
+entry18<-entry18[,-11]
 
+
+##entry1819
+entry1819<-entry1819[,-1]
+
+
+
+entry18feb<-entry18[which(entry18$Oportunidad..del.Ingreso=="Ingreso Febrero"), ]
+dim(entry18[which(entry18$Oportunidad..del.Ingreso=="Ingreso Febrero"), ])
+table(entry18[which(entry18$Oportunidad..del.Ingreso=="Ingreso Febrero"),8])
+## el 30% de los imgresantes de febrero obtuvieron beca
+
+entry18Cuat<-entry18[which(entry18$Oportunidad..del.Ingreso=="Ingreso Cuatrimestral"), ]
+dim(entry18[which(entry18$Oportunidad..del.Ingreso=="Ingreso Cuatrimestral"), ])
+table(entry18[which(entry18$Oportunidad..del.Ingreso=="Ingreso Cuatrimestral"),8])
+## el 25% de los ingresantes cuatrimestrales obtuvieron beca
+
+entry18Sep<-entry18[which(entry18$Oportunidad..del.Ingreso=="Ingreso Septiembre"), ]
+dim(entry18[which(entry18$Oportunidad..del.Ingreso=="Ingreso Septiembre"), ])
+table(entry18[which(entry18$Oportunidad..del.Ingreso=="Ingreso Septiembre"),8])
+## el 42% de los ingresantes de septiembre obtuvieron beca
+entry18feb<-entry18[which(entry18$Oportunidad..del.Ingreso=="Ingreso Octubre"), ]
+dim(entry18[which(entry18$Oportunidad..del.Ingreso=="Ingreso Octubre"), ])
+table(entry18[which(entry18$Oportunidad..del.Ingreso=="Ingreso Octubre"),8])
+## el  10% obtuvo beca
+
+entry18Dic<-entry18[which(entry18$Oportunidad..del.Ingreso=="Ingreso Diciembre"), ]
+dim(entry18[which(entry18$Oportunidad..del.Ingreso=="Ingreso Diciembre"), ])
+table(entry18[which(entry18$Oportunidad..del.Ingreso=="Ingreso Diciembre"),8])
+## Nadie obtuvo beca
+
+
+
+entry18Muj<-entry18[which(entry18$Sexo=="F" ), ]
+dim(entry18[which(entry18$Sexo=="F"& !is.na(entry18$Cal.MAT)), ])
+table(entry18[which(entry18$Sexo=="F"),6])
+## el 67% de las mujeres que rindieron matematica aprobaron
+
+entry18Homb<-entry18[which(entry18$Sexo=="M" ), ]
+dim(entry18[which(entry18$Sexo=="M"& !is.na(entry18$Cal.MAT)), ])
+table(entry18[which(entry18$Sexo=="M"),6])
+## el 60% de los hombres que rindieron matematica aprobaron
 
