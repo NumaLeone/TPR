@@ -58,6 +58,13 @@ wrong <- c("NO","BAJA","OBTIENE" ,"BFI N/A","Si")
 correct <- c("NO","NO","SI","SI","SI")
 entry$OBT.SCHOLARSHIP <- sapply(entry$OBT.SCHOLARSHIP, changeErrors, wrong, correct)
 
+wrong <- c("Antonio Berni", "Bede","Cardenal Pironio", "Colegio del Pilar","E.E.S.T. N°2","Goethe", "Lincoln","Lasalle", "Los Robles", "Michael Ham","Northfield School
+","Northlands","Oakhill","Pilgrims","San Felipe","San Jose","Santa Ines","Santa Maria","Sworn","Sowrn","St. Catherine's Moorlands","St. George´s","St. John's","St. Mary of the Hills","St. Matthew's College","Verbo Divino","Wellspring")
+
+correct <- c("Antonio Berni", "Bede's Grammar School", "Cardenal Pironio", "Colegio Del Pilar","E.E.S.T N°2","Goethe","Lincoln","Lasalle","Los Robles","Michael Ham","Northfield School
+","Northlands","Oakhill","Pilgrims","San Felipe","San Jose","Santa Ines","Santa Maria","Sworn","Sworn", "Moorlands","St. George´s","St. John's","St. Mary of the Hills","St. Matthew's College","Verbo Divino","Wellspring")
+
+entry$SCHOOL <- sapply(entry$SCHOOL, changeErrors, wrong, correct)
 
 #2019
 names(entry19)
