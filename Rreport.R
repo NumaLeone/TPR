@@ -46,12 +46,12 @@ wrong <-c("Cuatrimestral","Febrero", "Octubre", "Septiembre","Agosto","Directo",
 correct<-c("Cuatrimestral","Febrero","Octubre","Septiembre","Agosto","Directo","Diciembre" )
 entry$Entry <- sapply(entry$Entry,changeErrors,wrong,correct)
 
-wrong<- c("NA","N/A", "-","AUS","AUSENTE","ausente")
-correct <- c(NA,NA,NA,"A","A","A")
+wrong<- c("NA","N/A", "-","AUS","AUSENTE","ausente","Es pase","Desaprobado")
+correct <- c(NA,NA,NA,"A","A","A","Es pase","2")
 entry$CMATH <- sapply(entry$CMATH,changeErrors,wrong,correct)
-entry$RMATH <- sapply(entry$CMATH,changeErrors,wrong,correct)
-entry$CPHYS <- sapply(entry$CMATH,changeErrors,wrong,correct)
-entry$RPHYS <- sapply(entry$RMATH,changeErrors,wrong,correct) 
+entry$RMATH <- sapply(entry$RMATH,changeErrors,wrong,correct)
+entry$CPHYS <- sapply(entry$CPHYS,changeErrors,wrong,correct)
+entry$RPHYS <- sapply(entry$RPHYS,changeErrors,wrong,correct) 
 
 
 wrong <- c("NO","BAJA","OBTIENE" ,"BFI N/A","Si")
@@ -66,6 +66,10 @@ correct <- c("Antonio Berni", "Bede's Grammar School", "Cardenal Pironio", "Cole
 
 entry$SCHOOL <- sapply(entry$SCHOOL, changeErrors, wrong, correct)
 
+barplot(table(entry$CMATH),main= "Notas Curso de Ingreso Matematica", col = rainbow(12))
+
+
+
 #2019
 names(entry19)
 
@@ -73,6 +77,7 @@ names(entry19)
 entry[entry == "NA"] <- NA
 entry[entry == "N/A"] <- NA
 entry[entry == "AUS" | entry19 == "AUSENTE" | entry19 == "ausente"] <- "A"
+
 
 
 
