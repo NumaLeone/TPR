@@ -32,7 +32,7 @@ entry<- rbind(entry18,entry19)
 wrong <- c("NO","BAJA","OBTIENE" ,"BFI N/A","Si","N/A","MO","falta")
 correct <- c("NO","NO","SI","SI","SI","NO","NO",NA)
 entry$OBT.SCHOLARSHIP <- sapply(entry$OBT.SCHOLARSHIP, changeErrors, wrong, correct)
-entry$OBT.SCHOLARSHIP[which(entry$OBT.SCHOLARSHIP!="SI")] <-"NO"
+entry$OBT.SCHOLARSHIP[which(is.na(entry$OBT.SCHOLARSHIP))] <-"NO"
 
 
 wrong <-c("Cuatrimestral","Febrero", "Octubre", "Septiembre","Agosto","Directo","Diciembre")
@@ -66,6 +66,8 @@ approvedPhys <- which(entry$CPHYS >"3")
 approved <- intersect(approvedMath,approvedPhys)
 
 approvedRows <- entry[approved,]
+
+pie(table(approvedRows$Sex),labels = c("Female","Male"),main = "Distribucion de aprobados sin recuperatorio entre sexos",col = c("pink","cyan"))
 
 
 
