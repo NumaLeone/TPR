@@ -78,14 +78,13 @@ approved <- intersect(approvedMath,approvedPhys)
 
 approvedRows <- entry[approved,]
 
-<<<<<<< HEAD
 carreer<-as.factor(entry$Carreer)
 sex<-as.factor(entry$Sex)
 barplot(table(sex,carreer),beside=TRUE,legend.text=TRUE,col=c("hotpink","cyan"),main="Proporcion De Mujeres y Hombres Por Carrera")
-=======
+
+
 pie(table(approvedRows$Sex),labels = c("Female","Male"),main = "Distribucion de aprobados sin recuperatorio entre sexos",col = c("pink","cyan"))
 
->>>>>>> 6b514132cc2cbbf9a22f2dab6ffd160a179837ec
 
 
 library(plotrix)
