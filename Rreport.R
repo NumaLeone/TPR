@@ -24,7 +24,7 @@ entry18 <- read_excel("INGRESO 2018-ANON.xlsx")
 entry19 <- entry19[,-19] # aportaba demasiado poco dato la columna de status ingenieria
 entry19<- entry19[,-1]
 entry19<- entry19[,-1]
-entry19 <- rename(entry19, TDB='Tipo.de..Beneficio')
+entry19 <- select(entry19, -Tipo.de..Beneficio)
 entry19 <- rename(entry19, Status = 'Estado.del..Aspirante')
 entry19 <- select(entry19, -TDB)
 entry19<- select(entry19,-Porcentaje..Otorgado)

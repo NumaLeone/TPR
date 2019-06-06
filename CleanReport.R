@@ -17,9 +17,7 @@ entry18 <- read_excel("INGRESO 2018-ANON.xlsx")
 entry19 <- entry19[,-19] # aportaba demasiado poco dato la columna de status ingenieria
 entry19<- entry19[,-1]
 entry19<- entry19[,-1]
-entry19 <- rename(entry19, TDB='Tipo.de..Beneficio')
-entry19 <- rename(entry19, Status = 'Estado.del..Aspirante')
-entry19 <- select(entry19, -TDB)
+entry19 <- select(entry19, -Tipo.de..Beneficio)
 entry19<- select(entry19,-Porcentaje..Otorgado)
 entry18<-entry18[,-1]
 entry18<-entry18[,-1]
@@ -31,9 +29,11 @@ colnames(entry18) <- c("Names", "Sex","Carreer","Cohort", "Entry", "CMATH","RMAT
 entry<- rbind(entry18,entry19)
 
 
-wrong <- c("NO","BAJA","OBTIENE" ,"BFI N/A","Si")
-correct <- c("NO","NO","SI","SI","SI")
+wrong <- c("NO","BAJA","OBTIENE" ,"BFI N/A","Si","N/A","MO","falta")
+correct <- c("NO","NO","SI","SI","SI","NO","NO",NA)
 entry$OBT.SCHOLARSHIP <- sapply(entry$OBT.SCHOLARSHIP, changeErrors, wrong, correct)
+entry$OBT.SCHOLARSHIP[which(entry$OBT.SCHOLARSHIP!="SI")] <-"NO"
+
 
 wrong <-c("Cuatrimestral","Febrero", "Octubre", "Septiembre","Agosto","Directo","Diciembre")
 correct<-c("Cuatrimestral","Febrero","Octubre","Septiembre","Agosto","Directo","Diciembre" )
@@ -65,8 +65,12 @@ approvedMath <- which(entry$CMATH > "3")
 approvedPhys <- which(entry$CPHYS >"3")
 approved <- intersect(approvedMath,approvedPhys)
 
-pie()#preguntar bauti sobre como hacer piechart que compare los que aprobaron todas con los que no
+approvedRows <- entry[approved,]
 
+
+
+
+#pie()#preguntar bauti sobre como hacer piechart que compare los que aprobaron todas con los que no
 
 save(entry,file = "entry.Rdata")
 
