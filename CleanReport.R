@@ -33,7 +33,10 @@ entry<- rbind(entry18,entry19)
 wrong <- c("NO","BAJA","OBTIENE" ,"BFI N/A","Si","N/A","MO","falta")
 correct <- c("NO","NO","SI","SI","SI","NO","NO",NA)
 entry$OBT.SCHOLARSHIP <- sapply(entry$OBT.SCHOLARSHIP, changeErrors, wrong, correct)
+<<<<<<< HEAD
 entry$OBT.SCHOLARSHIP[which(entry$OBT.SCHOLARSHIP != "SI")] <-"NO"
+=======
+>>>>>>> 6b514132cc2cbbf9a22f2dab6ffd160a179837ec
 entry$OBT.SCHOLARSHIP[which(is.na(entry$OBT.SCHOLARSHIP))] <-"NO"
 
 
@@ -75,9 +78,14 @@ approved <- intersect(approvedMath,approvedPhys)
 
 approvedRows <- entry[approved,]
 
+<<<<<<< HEAD
 carreer<-as.factor(entry$Carreer)
 sex<-as.factor(entry$Sex)
 barplot(table(sex,carreer),beside=TRUE,legend.text=TRUE,col=c("hotpink","cyan"),main="Proporcion De Mujeres y Hombres Por Carrera")
+=======
+pie(table(approvedRows$Sex),labels = c("Female","Male"),main = "Distribucion de aprobados sin recuperatorio entre sexos",col = c("pink","cyan"))
+
+>>>>>>> 6b514132cc2cbbf9a22f2dab6ffd160a179837ec
 
 
 library(plotrix)
