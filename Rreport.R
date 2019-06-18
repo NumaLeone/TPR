@@ -26,7 +26,6 @@ entry19<- entry19[,-1]
 entry19<- entry19[,-1]
 entry19 <- select(entry19, -Tipo.de..Beneficio)
 entry19 <- rename(entry19, Status = 'Estado.del..Aspirante')
-entry19 <- select(entry19, -TDB)
 entry19<- select(entry19,-Porcentaje..Otorgado)
 entry18<-entry18[,-1]
 entry18<-entry18[,-1]
@@ -36,6 +35,8 @@ colnames(entry19) <- c("Names", "Sex","Carreer","Cohort", "Entry", "CMATH","RMAT
 colnames(entry18) <- c("Names", "Sex","Carreer","Cohort", "Entry", "CMATH","RMATH", "CPHYS", "RPHYS","MEAN", "REQBENEFIT","OBT.SCHOLARSHIP", "SCHOOLMEAN","STATUS","SCHOOL")
 
 entry<- rbind(entry18,entry19)
+entry$CMATH<- as.numeric(entry$CMATH)
+entry$CPHYS<- as.numeric(entry$PHYS)
 
 
 wrong <- c("NO","BAJA","OBTIENE" ,"BFI N/A","Si")

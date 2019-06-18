@@ -2,6 +2,7 @@ library(readxl)
 library(dplyr)
 library(tidyr)
 library(colortools)
+library(plotrix)
 
 changeErrors <- function(str, tokenArray, fixedArray, booleanFixed = FALSE){
   newArray <- sapply(tokenArray, grepl, str, ignore.case = TRUE, fixed = booleanFixed)
@@ -33,10 +34,8 @@ entry<- rbind(entry18,entry19)
 wrong <- c("NO","BAJA","OBTIENE" ,"BFI N/A","Si","N/A","MO","falta")
 correct <- c("NO","NO","SI","SI","SI","NO","NO",NA)
 entry$OBT.SCHOLARSHIP <- sapply(entry$OBT.SCHOLARSHIP, changeErrors, wrong, correct)
-<<<<<<< HEAD
 entry$OBT.SCHOLARSHIP[which(entry$OBT.SCHOLARSHIP != "SI")] <-"NO"
-=======
->>>>>>> 6b514132cc2cbbf9a22f2dab6ffd160a179837ec
+
 entry$OBT.SCHOLARSHIP[which(is.na(entry$OBT.SCHOLARSHIP))] <-"NO"
 
 
@@ -87,12 +86,13 @@ pie(table(approvedRows$Sex),labels = c("Female","Male"),main = "Distribucion de 
 
 
 
-library(plotrix)
+
 beca<-as.factor(entry$OBT.SCHOLARSHIP)
 ingreso<-as.factor(entry$Entry)
 barplot(table(beca,ingreso),legend.text=TRUE,col=c("#3B14AF","#E6399B"),ylab="Cantidad de Alumnos",xlab="Ingreso",main="Beca Por Curso De Ingreso")
 
 #pie()#preguntar bauti sobre como hacer piechart que compare los que aprobaron todas con los que no
+
 
 save(entry,file = "entry.Rdata")
 
