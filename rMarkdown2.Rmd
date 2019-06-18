@@ -7,7 +7,7 @@ output:
     theme: hpstr
     highlight: github
 ---
-En el siguiente informe analizaremos los datos acorde al ingreso a la Facultad de Ingenieria en la Universidad Austral.Estos fueron proveidos en total anonimato con el fin de no divulgar informacion personal de los alumnos.
+En el siguiente informe analizaremos los datos acorde al ingreso a la **Facultad de Ingenieria en la Universidad Austral**.Estos fueron proveidos en *total anonimato* con el fin de no divulgar informacion personal de los alumnos.
 Nuestro objetivo es sacar conclusiones de los datos que pueden ser utiles tanto a alumnos que piensan ingresar como para los directivos de la univesidad, tratando inferir a partir de la inoformacion proporcionada las causas primeras de los resultados del analisis.
 
 ```{r setup, include=FALSE}
@@ -21,10 +21,10 @@ library(plotrix)
 ```
 
 ## Desempeño en el Curso de Ingreso
-En primer lugar al analizar el desepeño en el examen de matematica y de fisica podemos ver que matematica la nota que cada alumno tiene mas probabilidad de sacar es un 2, mientras que en fisica esta es 10.
+En primer lugar al analizar el desepeño en el examen de *Matematica* y de *Fisica* podemos ver que matematica la nota que cada alumno tiene mas probabilidad de sacar es un 2, mientras que en fisica esta es 10.
 Concluimos que este contraste se debe a 2 razones principales:
-1.La alta exigencia en matematica para ingresar a la universidad.
-2.Que los colegios de los que la mayoria de los alumnos ingresan no tienen un buen nivel en matematica.
++1. La *alta exigencia* en Matematica para ingresar a la universidad.
++2. Que los colegios de los que la mayoria de los alumnos ingresan **no tienen un buen nivel en Matematica**.
 
 
 ```{r chunk1,echo=FALSE}
@@ -37,8 +37,8 @@ barplot(table(entry$CPHYS),main= "Notas Curso de Ingreso Fisica", col = rainbow(
 
 ## Una Batalla entre generos
 
-Por mas que sea una concepcion comun que la ingenieria es solo para hombres, los datos extraidos muestran todo lo contrario.Los alumnos de ingenieria biomedica presentan un a gran mayoria femenina (mas del 60 por ciento), ingenieria industrial presenta tambien un gran numero de alumnas mujeres mientras que informatica presenta el numero mas bajo de mujeres.
-Estos datos vendrian a demostrar que es un estereotipo verdaderamente incorrecto que las mujeres no pueden desarrollarse en areas STEM,ya sea por una supuesta discriminacion machista o inclinaciones vocacionales naturales femeninas alejadas de las areas de ciencia y tecnologia: es claro que esto no esta deteniendo a ninguna mujer en la Universidad Austral a  educarse y desarrollarse profesionalemente en el area que ella elija.
+Por mas que sea una concepcion comun que la ingenieria es solo para hombres, los datos extraidos muestran todo lo contrario.Los alumnos de *ingenieria biomedica* presentan un a **gran mayoria femenina** (mas del 60 por ciento), ingenieria industrial presenta tambien un gran numero de alumnas mujeres mientras que informatica presenta el numero mas bajo de mujeres.
+Estos datos vendrian a demostrar que es un *estereotipo verdaderamente incorrecto que las mujeres no pueden desarrollarse en areas STEM*,ya sea por una supuesta discriminacion machista o inclinaciones vocacionales naturales femeninas alejadas de las areas de ciencia y tecnologia: es claro que **esto no esta deteniendo a ninguna mujer en la Universidad Austral** a  educarse y desarrollarse profesionalemente en el area que ella elija.
 
 ```{r pressure, echo=FALSE}
 carreer<-as.factor(entry$Carreer)
@@ -50,7 +50,7 @@ barplot(table(sex,carreer),beside=TRUE,legend.text=TRUE,col=c("hotpink","cyan"),
 
 
 
-En primer lugar, consideramos los alumnos que aprobaron matematica y fisica en la primera fecha, es decir sin recuperatorios.Estos alumnos son de gran importancia al hacer este analisis ya que son tambien los mas propensos a obtener una beca en el curso de ingreso.Al analizar detenidamente los datos, concluimos que las alumnas mujeres proveen un porcentaje considerablemente mas alto de aprobados en este grupo reducido y como consecuencia tienen mas posibilidades de obtener una beca.Esto se puede apreciar en los siguientes graficos:
+En primer lugar, consideramos los alumnos que aprobaron Matematica y Fisica en la primera fecha, es decir sin recuperatorios.Estos alumnos son de gran importancia al hacer este analisis ya que son tambien los mas propensos a obtener una beca en el curso de ingreso.Al analizar detenidamente los datos, concluimos que las alumnas mujeres proveen un porcentaje considerablemente mas alto de aprobados en este grupo reducido y como consecuencia tienen mas posibilidades de obtener una beca.Esto se puede apreciar en los siguientes graficos:
 
 ```{r chunk3, echo=FALSE}
 women<-entry[which(entry$Sex=="F"),c("CMATH","CPHYS")]
@@ -76,13 +76,13 @@ pie(table(men$CMATH),labels = c("Reprobados","Aprobados"),main = "Distribucion d
 
 ##  La Brecha entres los Ingresos
 
-En la universidad se llevan a cabo diferentes instacias de cursos de ingresos, acompañados por sus respectivas fechas de examenes donde los alumnos tienen la oportunidad de entrar a la universidad y, si su promedio, tanto en examenes de Fisica como Matematica es lo suficientemente alto, obtener una beca.
-Despues de evaluar las diferencias entre los resultados de cada curso de realizado durante el año, Podemos concluir que el curso de ingreso con mayor densidad de estudiantes que obtienen becas es el de Febrero, mientras el que proporciona el porcentaje mas alto de obtencion es el de Septiembre, con una cifra de exitos muy cerca del 50 por ciento.
+En la universidad se llevan a cabo diferentes instacias de cursos de ingresos, acompañados por sus respectivas fechas de examenes donde los alumnos tienen la oportunidad de entrar a la universidad y, si su promedio, tanto en examenes de *Fisica* como *Matematica* es lo suficientemente alto, obtener una **beca**.
+Despues de evaluar las diferencias entre los resultados de cada curso de realizado durante el año, Podemos concluir que el curso de ingreso con mayor densidad de estudiantes que obtienen becas es el de *Febrero*, mientras el que proporciona el porcentaje mas alto de obtencion es el de Septiembre, con una cifra de exitos muy cerca del 50 por ciento.
 Tambien se puede observar el el grafico que el curso de ingreso donde ingresan el mayor numero de alumnos es en Febrero, lo que nos inclina a concluir que esto se puede deber a 3 razones principales:
-1.La exigencia durante este curso de ingreso baja.
-2.Al tener mas tiempo libre durante el año ya que no se dictan clases los alumnos pueden desempeñarse mucho mejor en sus estudios.
-3.Los docentes a cargo del curso de Febrero son altamente competentes.
-Vale aclarar que estas son solo especulaciones, pero confirmamos que al menos una de estas razones debe ocurrir e intervenir para producir tales cambios en los resultados.
++ 1. La exigencia durante este curso de ingreso *baja*.
++ 2. Al tener mas tiempo libre durante el año ya que no se dictan clases los alumnos pueden *desempeñarse mucho mejor* en sus estudios.
++ 3. Los docentes a cargo del curso de Febrero son *altamente competentes*.
+Vale aclarar que estas son solo *especulaciones*, pero confirmamos que al menos una de estas razones debe ocurrir e intervenir para producir tales cambios en los resultados.
 
 ```{r chunk4, echo=FALSE}
 
