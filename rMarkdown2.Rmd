@@ -13,11 +13,15 @@ Nuestro objetivo es sacar conclusiones de los datos que pueden ser utiles tanto 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 load("entry.Rdata")
+load("finalQuals.Rdata")
 library(readxl)
 library(dplyr)
 library(tidyr)
 library(colortools)
 library(plotrix)
+library(ggplot2)
+library(plyr)
+library(gridExtra)
 ```
 
 ## Desempeño en el Curso de Ingreso
@@ -31,6 +35,25 @@ Concluimos que este contraste se debe a 2 razones principales:
 
 barplot(table(entry$CMATH),main= "Notas Curso de Ingreso Matematica", col = rainbow(12))
 barplot(table(entry$CPHYS),main= "Notas Curso de Ingreso Fisica", col = rainbow(12))
+```
+
+## La Diferencia entre Carreras
+
+```{r chunk1.5,echo=FALSE, warning=FALSE}
+entry$CMATH <- as.numeric(entry$CMATH)
+entry$Carreer <- as.factor(entry$Carreer)
+entry$CPHYS<-as.numeric(entry$CPHYS)
+
+g<-ggplot(entry, aes(x=CMATH, fill=Carreer)) +
+  geom_density(alpha=0.5)+labs(title = "Notas Matematica")
+
+p<-ggplot(entry, aes(x=CPHYS, fill=Carreer)) +
+  geom_density(alpha=0.5)+labs(title = "Notas Fisica")
+
+grid.arrange(p, g, ncol=2)
+
+
+
 
 
 ```
@@ -65,7 +88,9 @@ men[which(men$CMATH>3 & men$CPHYS>3 ),]<-1
 
 pie(table(men$CMATH),labels = c("Reprobados","Aprobados"),main = "Distribucion de aprobados hombres",col = c("cyan","blue"))
 
-
+beca<-as.factor(entry$OBT.SCHOLARSHIP)
+sex<-as.factor(entry$Sex)
+barplot(table(beca,sex),legend.text=TRUE,col=c("hotpink","cyan"),main="Proporcion De Mujeres y Hombres y si tienen Beca")
 
 
 
@@ -94,7 +119,15 @@ barplot(table(beca,ingreso),legend.text=TRUE,col=c("#3B14AF","#E6399B"),ylab="Ca
 
 ```
 
+## El Desempeño En La Cursada
+```{r chunk5, echo=FALSE}
+
+
+boxplot(finalQuals$`Algebra exam 1`,finalQuals$`Analisis exam 1`, col = c("#55ff55" ,"#aaff55" ), xlab = "Algebra 1", ylab = "Notas", main = "Parcial 1                               Parcial 2")
+par(mfrow=c(1,2))
+boxplot(finalQuals$`Analisis exam 1`, col = c("#1ab3ff" ), xlab = "Analisis 1", ylab = "Notas", main = "Parcial 1")
+boxplot(finalQuals$`IntroProg exam 1`, col = c("#b76fff" ), xlab = "Prog. 1", ylab = "Notas", main = "Promedio Notas Prog. 1")
 
 
 
-
+```

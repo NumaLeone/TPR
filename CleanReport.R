@@ -3,6 +3,9 @@ library(dplyr)
 library(tidyr)
 library(colortools)
 library(plotrix)
+library(ggplot2)
+
+
 
 changeErrors <- function(str, tokenArray, fixedArray, booleanFixed = FALSE){
   newArray <- sapply(tokenArray, grepl, str, ignore.case = TRUE, fixed = booleanFixed)
@@ -92,6 +95,33 @@ ingreso<-as.factor(entry$Entry)
 barplot(table(beca,ingreso),legend.text=TRUE,col=c("#3B14AF","#E6399B"),ylab="Cantidad de Alumnos",xlab="Ingreso",main="Beca Por Curso De Ingreso")
 
 #pie()#preguntar bauti sobre como hacer piechart que compare los que aprobaron todas con los que no
+
+
+
+
+
+analisis <- merge.data.frame(AnalisisInd, AnalisisInf, all = TRUE)
+
+names(analisis) <- c("names", "Nota", "Prom",  "Carrera")
+
+Nota <- analisis$Nota
+Career <- analisis$Career
+
+analisis <- analisis[,-3]
+
+analisis$Nota <- as.numeric(analisis$Nota)
+analisis$Career <- as.factor(analisis$Carrera)
+
+library(plyr)
+
+p<-ggplot(analisis, aes(x=Nota, fill=Carrera)) +
+  geom_density(alpha=0.7)
+p + scale_fill_manual(values=c("#00FF7F", "orange")) + theme(aspect.ratio = 0.7) + labs(title = "Notas de Analisis 1") +   theme(plot.title = element_text(size = 35, face = "bold")) +  theme(
+  panel.grid.major = element_blank(), 
+  panel.grid.minor = element_blank(),
+  panel.background = element_rect(fill = "transparent",colour = NA),
+  plot.background = element_rect(fill = "transparent",colour = NA)
+)
 
 
 save(entry,file = "entry.Rdata")
