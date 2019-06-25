@@ -4,6 +4,7 @@ library(tidyr)
 library(colortools)
 library(plotrix)
 library(ggplot2)
+library(plyr)
 
 
 
@@ -100,23 +101,21 @@ barplot(table(beca,ingreso),legend.text=TRUE,col=c("#3B14AF","#E6399B"),ylab="Ca
 
 
 
-analisis <- merge.data.frame(AnalisisInd, AnalisisInf, all = TRUE)
 
-names(analisis) <- c("names", "Nota", "Prom",  "Carrera")
 
-Nota <- analisis$Nota
-Career <- analisis$Career
 
-analisis <- analisis[,-3]
 
-analisis$Nota <- as.numeric(analisis$Nota)
-analisis$Career <- as.factor(analisis$Carrera)
 
-library(plyr)
 
-p<-ggplot(analisis, aes(x=Nota, fill=Carrera)) +
-  geom_density(alpha=0.7)
-p + scale_fill_manual(values=c("#00FF7F", "orange")) + theme(aspect.ratio = 0.7) + labs(title = "Notas de Analisis 1") +   theme(plot.title = element_text(size = 35, face = "bold")) +  theme(
+
+
+
+entry$CMATH <- as.numeric(entry$CMATH)
+entry$Carreer <- as.factor(entry$Carreer)
+
+p<-ggplot(entry, aes(x=CMATH, fill=Carreer)) +
+  geom_density(alpha=0.5)
+p + scale_fill_manual(values=c("#87a5ff", "#a5ff87","#ff6e92")) + theme(aspect.ratio = 0.7) + labs(title = "Notas Matematica") +   theme(plot.title = element_text(size = 35, face = "bold")) +  theme(
   panel.grid.major = element_blank(), 
   panel.grid.minor = element_blank(),
   panel.background = element_rect(fill = "transparent",colour = NA),
