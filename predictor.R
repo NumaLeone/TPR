@@ -34,7 +34,7 @@ testSet <- finalQuals[-index,]
 
 control <- rfeControl(functions = rfFuncs,
                       method = "repeatedcv",
-                      repeats = 5,
+                      repeats = 3,
                       verbose = FALSE)
 
 outcomeName<-'Baja'
@@ -57,22 +57,48 @@ predictors<-c("Analisis exam 1","Algebra exam 1","Algebra exam 2","IntroProg exa
 # modelo lineal generalizado
 #model_glm<-train(trainSet[,predictors],trainSet[,outcomeName],method='glm')
 
-# modelo de incremento estocástico del gradiente
 
 fitControl <- trainControl(
   method = "repeatedcv",
-  number = 3,
-  repeats = 4)
+  number = 4,
+  repeats = 6)
 grid <- expand.grid(n.trees=c(10,20,50,100,500,1000),shrinkage=c(0.01,0.05,0.1,0.5),n.minobsinnode = c(3,5,10),interaction.depth=c(1,5,10))
-model_gbm<-train(trainSet[,predictors],trainSet[,outcomeName],method='gbm',trControl=fitControl,tuneGrid=grid)
+
+
+#gbm#fit control 4-4#rfe 4#0.7
 
 model_gbm<-train(trainSet[,predictors],trainSet[,outcomeName],method='gbm')
-model_gbm<-train(trainSet[,predictors],trainSet[,outcomeName],method='gbm',trControl=fitControl,tuneLength=10)
 predictions<-predict.train(object=model_gbm,testSet[,predictors],type="raw")
 table(predictions)
 confusionMatrix(predictions,testSet[,outcomeName])
-library(ROCR)
 
+
+
+#Random Forest
+
+model_rf3<-train(trainSet[,predictors],trainSet[,outcomeName],method='rf',trControl=fitControl,tuneLength=3)
+
+
+predictions<-predict.train(object=model_rf3,testSet[,predictors],type="raw")
+table(predictions)
+confusionMatrix(predictions,testSet[,outcomeName])
+
+#red neuronal
+model_nnet1<-train(trainSet[,predictors],trainSet[,outcomeName],method='nnet',trControl=fitControl,tuneLength =10)
+model_nnet2<-train(trainSet[,predictors],trainSet[,outcomeName],method='nnet')
+predictions<-predict.train(object=model_nnet2,testSet[,predictors],type="raw")
+table(predictions)
+confusionMatrix(predictions,testSet[,outcomeName])
+
+#modelo lineal generalizado
+model_glm1<-train(trainSet[,predictors],trainSet[,outcomeName],method='glm',trControl=fitControl,tuneLength =15)
+model_glm2<-train(trainSet[,predictors],trainSet[,outcomeName],method='glm')
+predictions<-predict.train(object=model_glm1,testSet[,predictors],type="raw")
+table(predictions)
+confusionMatrix(predictions,testSet[,outcomeName])
+
+
+library(ROCR)
 # función para graficar la curva AUROC
 plotROC <- function(pred){
   perf<- performance(pred,"tpr","fpr")
