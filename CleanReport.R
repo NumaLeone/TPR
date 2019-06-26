@@ -36,7 +36,7 @@ entry<- rbind(entry18,entry19)
 
 
 wrong <- c("NO","BAJA","OBTIENE" ,"BFI N/A","Si","N/A","MO","falta")
-correct <- c("NO","NO","SI","SI","SI","NO","NO",NA)
+correct <- c("NO","NO","SI","SI","SI","NO","NO","NO")
 entry$OBT.SCHOLARSHIP <- sapply(entry$OBT.SCHOLARSHIP, changeErrors, wrong, correct)
 entry$OBT.SCHOLARSHIP[which(entry$OBT.SCHOLARSHIP != "SI")] <-"NO"
 
@@ -48,7 +48,7 @@ correct<-c("Cuatrimestral","Febrero","Octubre","Septiembre","Agosto","Directo","
 entry$Entry <- sapply(entry$Entry,changeErrors,wrong,correct)
 
 wrong<- c("NA","N/A", "-","x","AUS","AUSENTE","ausente","Es pase","Desaprobado","2","5","6","7","8","9")
-correct <- c(NA,NA,NA,NA,"A","A","A","Es pase","2","2","5","6","7","8","9")
+correct <- c("0","0","0","0","0","0","0","4","2","2","5","6","7","8","9")
 entry$CMATH <- sapply(entry$CMATH,changeErrors,wrong,correct)
 entry$RMATH <- sapply(entry$RMATH,changeErrors,wrong,correct)
 entry$CPHYS <- sapply(entry$CPHYS,changeErrors,wrong,correct)
