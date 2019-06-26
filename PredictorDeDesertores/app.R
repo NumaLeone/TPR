@@ -16,34 +16,25 @@ ui <- fluidPage(
     titlePanel("Predictor de Desertores"),
 
     # Sidebar with a slider input for number of bins 
-    sidebarLayout(
-        sidebarPanel(
-            sliderInput("bins",
-                        "Number of bins:",
-                        min = 1,
-                        max = 500,
-                        value = 30)
-        ),
-
-        # Show a plot of the generated distribution
-        mainPanel(
-           plotOutput("distPlot")
+  
+        sidebarLayout(
+            sidebarPanel(
+                numericInput("numInput", "Ingresa tu Nota del parcial de Analisis:", value=0, min = 1, max = 10),
+                numericInput("numInput", "Ingresa tu Nota del primer parcial de Algebra:", value=0,min = 1, max = 10),
+                numericInput("numInput", "Ingresa tu Nota del  segundo parcial de Analisis:", value=0, min = 1, max = 10),
+                numericInput("numInput", "Ingresa tu Promedio de Introduccion a la Programacion:", value=0, min = 1, max = 10),
+                actionButton("MiBoton","Predecir")
+            
+                
+            ),
+            mainPanel(
+                p(strong("bold font "), em("italic font"))
+            
         )
-    )
-)
-
+    ),
 # Define server logic required to draw a histogram
-server <- function(input, output) {
 
-    output$distPlot <- renderPlot({
-        # generate bins based on input$bins from ui.R
-        x    <- faithful[, 2]
-        bins <- seq(min(x), max(x), length.out = input$bins + 1)
-
-        # draw the histogram with the specified number of bins
-        hist(x, breaks = bins, col = 'hotpink', border = 'yellow')
-    })
-}
 
 # Run the application 
-shinyApp(ui = ui, server = server)
+shinyApp(ui = ui)
+
