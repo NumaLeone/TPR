@@ -8,33 +8,33 @@
 #
 
 library(shiny)
-
+library(shinythemes)
 # Define UI for application that draws a histogram
 ui <- fluidPage(
-
-    # Application title
-    titlePanel("Predictor de Desertores"),
-
-    # Sidebar with a slider input for number of bins 
+  titlePanel("Predictor de Desertores", windowTitle = "Predictor"),
+  sidebarLayout(
+    sidebarPanel (numericInput(inputId = "notaAnalisis", label= "Ingrese su nota de Analisis",value=0,min=0,max=10, step=1),
+                  numericInput(inputId = "notaAlgebra1", label= "Ingrese su nota del primer parcial de Algebra",value=0,min=0,max=10, step=1),
+                  numericInput(inputId = "notaAlgebra2", label= "Ingrese su nota del segundo parcial de Algebra",value=0,min=0,max=10, step=1),
+                  numericInput(inputId = "notaProg", label= "Ingrese su promedio de Intro. prog",value=0,min=0,max=10, step=1),
+                  actionButton(inputId="predecir",label="Predecir",icon=icon("arrow-alt-circle-right")),
+                  width =4
+                  ),
   
-        sidebarLayout(
-            sidebarPanel(
-                numericInput("numInput", "Ingresa tu Nota del parcial de Analisis:", value=0, min = 1, max = 10),
-                numericInput("numInput", "Ingresa tu Nota del primer parcial de Algebra:", value=0,min = 1, max = 10),
-                numericInput("numInput", "Ingresa tu Nota del  segundo parcial de Analisis:", value=0, min = 1, max = 10),
-                numericInput("numInput", "Ingresa tu Promedio de Introduccion a la Programacion:", value=0, min = 1, max = 10),
-                actionButton("MiBoton","Predecir")
-            
-                
-            ),
-            mainPanel(
-                p(strong("bold font "), em("italic font"))
-            
-        )
-    ),
+  mainPanel(),
+  position=c("left","right"),
+  fluid=TRUE),
+  
+  
+  
+  title = "predictor",
+  theme= shinytheme("superhero")
+)
+  
 # Define server logic required to draw a histogram
+server<- function(input, output){}
 
 
 # Run the application 
-shinyApp(ui = ui)
+shinyApp(ui = ui, server= server)
 
