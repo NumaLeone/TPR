@@ -21,7 +21,10 @@ ui <- fluidPage(
                   width =4
                   ),
   
-  mainPanel(),
+  mainPanel(
+    textOutput("result"),
+    imageOutput("resultImage")
+  ),
   position=c("left","right"),
   fluid=TRUE),
   
@@ -31,8 +34,19 @@ ui <- fluidPage(
   theme= shinytheme("superhero")
 )
   
-# Define server logic required to draw a histogram
-server<- function(input, output){}
+
+server<- function(input, output){
+  load("student.RData")
+  student$`Algebra exam 1`<-input$notaAlgebra1
+  student$`Algebra exam 2`<-input$notaAlgebra2
+  student$`Analisis exam 1`<-input$notaAnalisis
+  student$`IntroProg exam 1`<-input$notaProg
+  prediction<-predict(model_nnet,student)
+  output$result<-renderText()
+  
+  output$resultImage<-renderImage()
+  
+}
 
 
 # Run the application 
