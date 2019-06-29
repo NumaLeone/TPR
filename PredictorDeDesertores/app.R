@@ -10,9 +10,10 @@
 library(shiny)
 library(shinythemes)
 library(magick)
-load("student.RData")
-# Define UI for application that draws a histogram
+source("Funcion.R")
+load(file="funcionPredictor.rdata")
 ui <- fluidPage(
+  
   titlePanel(strong(h1("Predictor de Desertores")), windowTitle = "Predictor"),
   sidebarLayout(
     
@@ -20,12 +21,6 @@ ui <- fluidPage(
                   numericInput(inputId = "notaAlgebra1", label= h3("Ingrese su nota del primer parcial de Algebra:"),value=9,min=0,max=10, step=1),
                   numericInput(inputId = "notaAlgebra2", label= h3("Ingrese su nota del segundo parcial de Algebra:"),value=9,min=0,max=10, step=1),
                   numericInput(inputId = "notaProg", label= h3("Ingrese su promedio de Intro. prog:"),value=9,min=0,max=10, step=1),
-                  actionButton(inputId="predecir",label="Predecir",icon=icon("arrow-alt-circle-right")),
-                  selectInput(inputId="modelo",label=h3("Elegir el modelo para realizar la prediccion:"),
-                              choices=c("Random Forest",
-                                        "Red Neuronal",
-                                        "Modelo Lineal Generalizado",
-                                        "Gradient Boosting Machine")),
                   width =4
                   ),
   
@@ -76,7 +71,8 @@ output$gif<-renderUI({
   
 }
 
+ 
 
-# Run the application 
 shinyApp(ui = ui, server= server)
+
 

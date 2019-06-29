@@ -115,49 +115,14 @@ perf <- performance(predaux, "auc")
 perf@y.values[[1]]
 plotROC(predaux)
 
-student$`Algebra exam 1`<-input$notaAlgebra1
-student$`Algebra exam 2`<-input$notaAlgebra2
-student$`Analisis exam 1`<-input$notaAnalisis
-student$`IntroProg exam 1`<-input$notaProg
-prediction<-predict(model_nnet,student)
-text<-"no dejara la carrera"
-if(prediction<-0){
-  text<-"baja"
-
-   }
-text
 
 funcionPredictor<-function(notaAl1,notaAl2,notaAn,notaProg){
 student<-data.frame(notaAl1,notaAl2,notaAn,notaProg)
+load("PredictorDeDesertores/model_nnet.RData")
 names(student)<-c("Algebra exam 1","Algebra exam 2","Analisis exam 1","IntroProg exam 1")
-return (predict(model_nnet,student)==1)
+return (predict(model_nnet2,student)==1)
 }
 funcionPredictor(1,1,1,1)
+save(file="funcionPredictor.RData",funcionPredictor)
 
-
-funcionPredictor2<-function(notaAl1,notaAl2,notaAn,notaProg,model){
-  student<-data.frame(notaAl1,notaAl2,notaAn,notaProg)
-  names(student)<-c("Algebra exam 1","Algebra exam 2","Analisis exam 1","IntroProg exam 1")
-  switch(model, 
-         "Random Forest"={
-           modelfinal=load("model_rf.RData")
-         },
-         "Red Neuronal"={
-           modelfinal=load("model_nnet.RData")
-          
-         },
-         "Gradient Boosting Machine"={
-           modelfinal=load("model_gbm.RData")
-         },
-         "Modelo Lineal Generalizado"={
-           modelfinal=load("PredictorDeDesertores/model_glm.RData")
-         },
-       
-
-  )
-  return (predict(modelfinal,student)==1)
-}
-text<-"Modelo Lineal Generalizado"
-funcionPredictor2(1,1,1,1,text)
-switch("bar", foo={"one"}, bar={"two"})
 
