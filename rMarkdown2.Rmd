@@ -1,5 +1,5 @@
 ---
-title: "Informe:Alumnos de la Facultad de Ingenieria, Universidad Austral"
+title: "Informe: Alumnos de la Facultad de Ingenieria, Universidad Austral"
 author: "Numa Leone Elizalde & Sofia Sidañez"
 date: "`r Sys.Date()`"
 output:
@@ -7,8 +7,13 @@ output:
     theme: hpstr
     highlight: github
 ---
-En el siguiente informe analizaremos los datos acorde al ingreso a la **Facultad de Ingenieria en la Universidad Austral**.Estos fueron proveidos en *total anonimato* con el fin de no divulgar informacion personal de los alumnos.
-Nuestro objetivo es sacar conclusiones de los datos que pueden ser utiles tanto a alumnos que piensan ingresar como para los directivos de la univesidad, tratando inferir a partir de la inoformacion proporcionada las causas primeras de los resultados del analisis.
+
+```{r set-options, echo=FALSE, cache=FALSE}
+options(width = 100)
+```
+
+En el siguiente informe analizamos los datos de el ingreso a la **Facultad de Ingeniería en la Universidad Austral** y al desempeño de estos alumnos en el primer cuatrimestre. Estos fueron provistos en *total anonimato* con el fin de no divulgar información personal de los alumnos.
+Nuestro objetivo es sacar conclusiones de los datos que pueden ser útiles tanto a alumnos que piensan ingresar como para los directivos de la Universidad, infiriendo a partir de la información proporcionada las causas de los resultados del análisis.
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -22,24 +27,47 @@ library(plotrix)
 library(ggplot2)
 library(plyr)
 library(gridExtra)
+library(caret)
 ```
 
 ## Desempeño en el Curso de Ingreso
-En primer lugar al analizar el desepeño en el examen de *Matematica* y de *Fisica* podemos ver que matematica la nota que cada alumno tiene mas probabilidad de sacar es un 2, mientras que en fisica esta es 10.
+En primer lugar al analizar el desempeño en el examen de *Matemática* y de *Física* podemos ver que en Matemática la nota más frecuente es un 2, mientras que en Física esta es 10.
 Concluimos que este contraste se debe a 2 razones principales:
-+ 1. La *alta exigencia* en Matematica para ingresar a la universidad.
+
++ 1. La *alta exigencia* en Matemática para ingresar a la Universidad.
+
 + 2. Que los colegios de los que la mayoria de los alumnos ingresan **no tienen un buen nivel en Matematica**.
 
 
-```{r chunk1,echo=FALSE}
+```{r chunk1,echo=TRUE}
 
-barplot(table(entry$CMATH),main= "Notas Curso de Ingreso Matematica", col = rainbow(12))
-barplot(table(entry$CPHYS),main= "Notas Curso de Ingreso Fisica", col = rainbow(12))
+barplot(table(entry$CMATH),main= "Notas Curso de Ingreso Matematica",
+        col = rainbow(12))
+barplot(table(entry$CPHYS),main= "Notas Curso de Ingreso Fisica",
+        col = rainbow(12))
 ```
 
 ## La Diferencia entre Carreras
+Después de analizar los resultados de los exámenes del curso de ingreso pudimos ver grandes diferencias dependiendo de la  carrera elegida por cada aspirante:
 
-```{r chunk1.5,echo=FALSE, warning=FALSE}
++ 1.Los alumnos aspirantes de **Ingeniería Biomédica** presentan el *peor desempeño en Física*.
+
++ 2.Los alumnos aspirantes de **Ingeniería Informática** presentan el *mejor desepeño en Física y en Matemática*.
+
++ 3.Los alumnos aspirantes de **Ingeniería Industrial** presentan la *mayor densidad de alumnos con notas muy altas y tambien muy bajas en Matematica*,
+    Esto se ve graficamente en los picos que presenta su curva.
+    
++ 4.Los alumnos de **Ingeniería Biomédica** presentan la *mayor cantidad de aprobados en Matemática*, pero la *menor cantidad de notas superiores a 8*.
+
+Al evaluar todo esto concluimos que:
+
++ Los alumnos aspirantes de **Ingeniería Industrial** vienen de *ámbitos educativos con amplias diferencias*, ya que hay grandes disparidades entre los resultados de los examenes, más aún que en las demas Ingenierías. Esto se debe a que Ingeniería Industrial es una carrera que proporciona una gran variedad de salidas laborales, asi que atrae alumnos de diferentes entornos.
+
++ Por otro lado, los alumnos aspirantes de **Ingeniería Informática** presentan el *mayor nivel de homogeneidad en los exámenes*, sin muchos picos extremos de notas. Como consecuencia concluimos que estos alumnos tienen una formación similar entre ellos, más que los aspirantes de las demás carreras.
+
++ En ultimo lugar podemos decir que los alumnos aspirantes de **Ingenieria Biomedica** son los que tienen la *formación más débil* en Matemática y en Física.
+
+```{r chunk1.5,echo=TRUE, warning=FALSE}
 entry$CMATH <- as.numeric(entry$CMATH)
 entry$Carreer <- as.factor(entry$Carreer)
 entry$CPHYS<-as.numeric(entry$CPHYS)
@@ -58,39 +86,51 @@ grid.arrange(p, g, ncol=2)
 
 ```
 
-## Una Batalla entre generos
+## Una Batalla entre Géneros
 
-Por mas que sea una concepcion comun que la ingenieria es solo para hombres, los datos extraidos muestran todo lo contrario.Los alumnos de *ingenieria biomedica* presentan un a **gran mayoria femenina** (mas del 60 por ciento), ingenieria industrial presenta tambien un gran numero de alumnas mujeres mientras que informatica presenta el numero mas bajo de mujeres.
-Estos datos vendrian a demostrar que es un *estereotipo verdaderamente incorrecto que las mujeres no pueden desarrollarse en areas STEM*,ya sea por una supuesta discriminacion machista o inclinaciones vocacionales naturales femeninas alejadas de las areas de ciencia y tecnologia: es claro que **esto no esta deteniendo a ninguna mujer en la Universidad Austral** a  educarse y desarrollarse profesionalemente en el area que ella elija.
+Por más que sea una concepción común que la Ingeniería es solo para hombres, los datos extraidos muestran todo lo contrario. Los alumnos de *Ingeniería Biomédica* presentan una **gran mayoría femenina** (más del 70 por ciento), Ingeniería Industrial presenta también un gran número de alumnas mujeres mientras que Informática presenta el numero más bajo de mujeres.
+Estos datos prueban que es un *estereotipo verdaderamente incorrecto que las mujeres no pueden desarrollarse en areas STEM*(Science, Tecnology, Engineering and Maths).
 
-```{r pressure, echo=FALSE}
+
+```{r pressure, echo=TRUE}
 carreer<-as.factor(entry$Carreer)
 sex<-as.factor(entry$Sex)
-barplot(table(sex,carreer),beside=TRUE,legend.text=TRUE,col=c("hotpink","cyan"),main="Proporcion De Mujeres y Hombres Por Carrera")
+barplot(table(sex,carreer),beside=TRUE,
+        legend.text=TRUE,
+        col=c("hotpink","cyan"),
+        main="Proporcion De Mujeres y Hombres Por Carrera")
 
 ```
 
 
 
 
-En primer lugar, consideramos los alumnos que aprobaron Matematica y Fisica en la primera fecha, es decir sin recuperatorios.Estos alumnos son de gran importancia al hacer este analisis ya que son tambien los mas propensos a obtener una beca en el curso de ingreso.Al analizar detenidamente los datos, concluimos que las alumnas mujeres proveen un porcentaje considerablemente mas alto de aprobados en este grupo reducido y como consecuencia tienen mas posibilidades de obtener una beca.Esto se puede apreciar en los siguientes graficos:
+En primer lugar, consideramos los alumnos que aprobaron *Matemática* y *Física* en la primera fecha, es decir sin recuperatorios. Estos alumnos son de gran importancia al hacer este análisis ya que son tambien **los más propensos a obtener una beca en el curso de ingreso**. Al analizar detenidamente los datos, concluimos que **las alumnas mujeres proveen un porcentaje considerablemente más alto de aprobados en este grupo reducido**.
+Esto prueba que *no hay ninguna discriminación hacia las alumnas de Ingeniería* ya que producen resultados iguales que los de sus compañeros masculinos y muchas veces, hasta *mejores*.
+Sin embargo al analizar las proporciones de alumnos becados entre mujeres y hombres podemos ver que *ningún grupo en particular es favorecido*, presentando asi una cifra de **alrededor del 30% de hombres y mujeres que son becados en la Universidad**, distribuyendo las becas equitativamente, de forma proporcional entre ambos grupos.
+Esto se puede apreciar en los siguientes graficos:
 
-```{r chunk3, echo=FALSE}
+```{r chunk3, echo=TRUE}
 women<-entry[which(entry$Sex=="F"),c("CMATH","CPHYS")]
 women[which(women$CMATH< 4 | women$CPHYS<4 ),]<-0
 women[which(women$CMATH>3 & women$CPHYS>3 ),]<-1
 
-pie(table(women$CMATH),labels = c("Reprobados","Aprobados"),main = "Distribucion de aprobados mujeres",col = c("magenta","hotpink"))
+pie(table(women$CMATH),labels = c("Reprobados","Aprobados"),
+    main = "Distribucion de aprobados mujeres",col = c("magenta","hotpink"))
 
 men<-entry[which(entry$Sex=="M"),c("CMATH","CPHYS")]
 men[which(men$CMATH< 4 | men$CPHYS<4 ),]<-0
 men[which(men$CMATH>3 & men$CPHYS>3 ),]<-1
 
-pie(table(men$CMATH),labels = c("Reprobados","Aprobados"),main = "Distribucion de aprobados hombres",col = c("cyan","blue"))
+pie(table(men$CMATH)
+    ,labels = c("Reprobados","Aprobados"),
+    main = "Distribucion de aprobados hombres",col = c("cyan","blue"))
 
 beca<-as.factor(entry$OBT.SCHOLARSHIP)
 sex<-as.factor(entry$Sex)
-barplot(table(beca,sex),legend.text=TRUE,col=c("hotpink","cyan"),main="Proporcion De Mujeres y Hombres y si tienen Beca")
+barplot(table(beca,sex),legend.text=TRUE,
+        col=c("hotpink","cyan"),
+        main="Proporcion De Mujeres y Hombres y si tienen Beca")
 
 
 
@@ -99,39 +139,103 @@ barplot(table(beca,sex),legend.text=TRUE,col=c("hotpink","cyan"),main="Proporcio
 
 
 
-##  La Brecha entres los Ingresos
+##  La Brecha entre los Ingresos
 
-En la universidad se llevan a cabo diferentes instacias de cursos de ingresos, acompañados por sus respectivas fechas de examenes donde los alumnos tienen la oportunidad de entrar a la universidad y, si su promedio, tanto en examenes de *Fisica* como *Matematica* es lo suficientemente alto, obtener una **beca**.
-Despues de evaluar las diferencias entre los resultados de cada curso de realizado durante el año, Podemos concluir que el curso de ingreso con mayor densidad de estudiantes que obtienen becas es el de *Febrero*, mientras el que proporciona el porcentaje mas alto de obtencion es el de Septiembre, con una cifra de exitos muy cerca del 50 por ciento.
-Tambien se puede observar el el grafico que el curso de ingreso donde ingresan el mayor numero de alumnos es en Febrero, lo que nos inclina a concluir que esto se puede deber a 3 razones principales:
-* 1. La exigencia durante este curso de ingreso *baja*.
-* 2. Al tener mas tiempo libre durante el año ya que no se dictan clases los alumnos pueden *desempeñarse mucho mejor* en sus estudios.
-* 3. Los docentes a cargo del curso de Febrero son *altamente competentes*.
-Vale aclarar que estas son solo *especulaciones*, pero confirmamos que al menos una de estas razones debe ocurrir e intervenir para producir tales cambios en los resultados.
+En la universidad se llevan a cabo diferentes instancias de cursos de ingreso, acompañados por sus respectivas fechas de exámenes donde los alumnos tienen la oportunidad de entrar a la Universidad y, si su promedio, entre el examen de *Física* y *Matemática* es lo suficientemente alto, obtener una **beca**.
+Después de evaluar las diferencias entre los resultados de cada curso realizado durante el año, podemos concluir que el curso de ingreso con mayor densidad de estudiantes que obtienen becas es el de *Febrero*, mientras el que proporciona el porcentaje más alto de obtención es el de Septiembre, con una cifra de exitos cercana al 50 por ciento.
+También se puede observar en el gráfico que el curso de ingreso donde aprueba el mayor numero de alumnos es en Febrero, lo que nos inclina a concluir que esto se debe a 3 razones principales:
 
-```{r chunk4, echo=FALSE}
++ 1. La exigencia durante este curso de ingreso *disminuye*.
+
++ 2. Al tener más tiempo libre que durante el año, ya que no se dictan clases, los alumnos pueden *desempeñarse mucho mejor* en sus estudios.
+
++ 3. Los docentes a cargo del curso de Febrero son *altamente competentes*.
+
+```{r chunk4, echo=TRUE}
 
 beca<-as.factor(entry$OBT.SCHOLARSHIP)
 ingreso<-as.factor(entry$Entry)
-barplot(table(beca,ingreso),legend.text=TRUE,col=c("#3B14AF","#E6399B"),ylab="Cantidad de Alumnos",xlab="Ingreso",main="Beca Por Curso De Ingreso")
+barplot(table(beca,ingreso),legend.text=TRUE,
+        col=c("#3B14AF","#E6399B"),
+        ylab="Cantidad de Alumnos",xlab="Ingreso",
+        main="Beca Por Curso De Ingreso")
 
 
 
 ```
 
 ## El Desempeño En La Cursada
+Al analizar detenidamente los resultados durante la cursada podemos extraer los siguientes hechos:
+
++ 1. Que **Algebra** presenta una buena media de notas (4) en el primer parcial, mientras que en el segundo parcial presenta una media de 2. Esto podria implicar que *la segunda parte de la materia le resulta más difícil* a los alumnos. 
+
++ 2. **Análisis** presenta las notas más bajas con una media de 2, esto se debe nuevamente a la *alta exigencia de la materia* o bien a que los colegios de los que vienen los alumnos presentan un *nivel de matematica que no coincide con el nivel esperado para cursar* la materia. 
+
++3 **Introducción a la Programación** presenta las *notas más altas con una media de 6*.
 ```{r chunk5, echo=FALSE}
 
 
-boxplot(finalQuals$`Algebra exam 1`,finalQuals$`Analisis exam 1`, col = c("#55ff55" ,"#aaff55" ), xlab = "Algebra 1", ylab = "Notas", main = "Parcial 1                               Parcial 2")
+boxplot(finalQuals$`Algebra exam 1`,
+        finalQuals$`Analisis exam 1`,
+        col = c("#55ff55" ,"#aaff55" ),
+        xlab = "Algebra 1", ylab = "Notas", main = "Parcial 1                               Parcial 2")
 par(mfrow=c(1,2))
-boxplot(finalQuals$`Analisis exam 1`, col = c("#1ab3ff" ), xlab = "Analisis 1", ylab = "Notas", main = "Parcial 1")
-boxplot(finalQuals$`IntroProg exam 1`, col = c("#b76fff" ), xlab = "Prog. 1", ylab = "Notas", main = "Promedio Notas Prog. 1")
+boxplot(finalQuals$`Analisis exam 1`,
+        col = c("#1ab3ff" ),
+        xlab = "Analisis 1", 
+        ylab = "Notas", main = "Parcial 1")
+boxplot(finalQuals$`IntroProg exam 1`,
+        col = c("#b76fff" ),
+        xlab = "Prog. 1", 
+        ylab = "Notas", main = "Promedio Notas Prog. 1")
 
 
 
 ```
-```{r chunk5, echo=FALSE}
 
+## Conclusiones Finales
+Como últimas consideraciones acerca de los datos analizados nos gustaría concluir:
+
+  + La Universidad debería *fomentar el ingreso a Ingeniería de más alumnas mujeres* ya que presentan, en su mayoría, una buena dedicación que se refleja en *buenos resultados en el curso de Ingreso*.
+  
+  + Las areas de *Matemática* y *Análisis Matemático* asi como también *Algebra* presentan la mayor dificultad para los alumnos tanto en el curso de ingreso como durante la cursada, esto nos lleva a concluir que **proveer en el primer año consultas y talleres para ayudar a los alumnos con estas materias** es una buena idea para mejorar su desempeño en las mismas, y recomendamos fomentar más la participación en dichas consultas.
+  
+  +La Universidad debería *fomentar el ingreso de más alumnos aspirantes a Ingeniería Informática* ya que presentan los *mejores resultados durante el curso de ingreso*.
+  
+## Predicción
+A partir de los datos proporcionados de las notas del primer cuatrimestre, construimos 4 modelos de predicción con el paquete **Caret** de R.
+Estos modelos fueron un Random Forest (rf), una Gradient Boosting Machine (gbm), un Modelo Lineal Generalizado (mlg) y una Red Neuronal (nnet).
+En primer lugar dividimos los datos entre train, para entrenar el modelo, y test, para probarlo.
+`
+```{r chunk7, echo=TRUE}
+index <- createDataPartition(finalQuals$Baja, p=0.70, list=FALSE)
+trainSet <- finalQuals[ index,]
+testSet <- finalQuals[-index,]
+
+```
+Luego utilizamos el algoritmo de RFE o Recursive Feature Elimination para seleccionar las variables que vamos a usar en nuestra predicción.
+```{r chunk8, echo=TRUE}
+control <- rfeControl(functions = rfFuncs,
+                      method = "repeatedcv",
+                      repeats = 3,
+                      verbose = FALSE)
+
+outcomeName<-'Baja'
+
+predictors<-names(trainSet)[!names(trainSet) %in% outcomeName]
+
+DesertorPrediction <- rfe(trainSet[,predictors],trainSet[,outcomeName],
+                         rfeControl = control)
+
+
+```
+Finalmente el algoritmo elige todas las variables que teníamos a nuestra disposición: La nota del primer y segundo parcial de Algebra, la nota del parcial de Análisis y el promedio de Introducción a la Programación.
+Probamos con varios modelos y finalmente nos quedamos con el Gradient Boosting Machine ya que era el modelo que menos falsos positivos daba en la matriz de confusión ( Es decir el modelo que categorizaba incorrectamente alumnos que dejaban la carrera en menor medida) y el que presentaba el número más grande de precisión.
+```{r chunk9, echo=TRUE}
+load("PredictorDeDesertores/model_glm.RData")
+load("PredictorDeDesertores/testSet_glm.RData")
+load("PredictorDeDesertores/predictions_glm.RData")
+table(predictions)
+confusionMatrix(predictions,testSet[,outcomeName])
 
 ```

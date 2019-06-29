@@ -9,21 +9,36 @@
 
 library(shiny)
 library(shinythemes)
+library(magick)
+load("student.RData")
 # Define UI for application that draws a histogram
 ui <- fluidPage(
-  titlePanel("Predictor de Desertores", windowTitle = "Predictor"),
+  titlePanel(strong(h1("Predictor de Desertores")), windowTitle = "Predictor"),
   sidebarLayout(
-    sidebarPanel (numericInput(inputId = "notaAnalisis", label= "Ingrese su nota de Analisis",value=0,min=0,max=10, step=1),
-                  numericInput(inputId = "notaAlgebra1", label= "Ingrese su nota del primer parcial de Algebra",value=0,min=0,max=10, step=1),
-                  numericInput(inputId = "notaAlgebra2", label= "Ingrese su nota del segundo parcial de Algebra",value=0,min=0,max=10, step=1),
-                  numericInput(inputId = "notaProg", label= "Ingrese su promedio de Intro. prog",value=0,min=0,max=10, step=1),
+    
+    sidebarPanel (h6(numericInput(inputId = "notaAnalisis", label= h3("Ingrese su nota de Analisis:"),value=9,min=0,max=10, step=1)),
+                  numericInput(inputId = "notaAlgebra1", label= h3("Ingrese su nota del primer parcial de Algebra:"),value=9,min=0,max=10, step=1),
+                  numericInput(inputId = "notaAlgebra2", label= h3("Ingrese su nota del segundo parcial de Algebra:"),value=9,min=0,max=10, step=1),
+                  numericInput(inputId = "notaProg", label= h3("Ingrese su promedio de Intro. prog:"),value=9,min=0,max=10, step=1),
                   actionButton(inputId="predecir",label="Predecir",icon=icon("arrow-alt-circle-right")),
+                  selectInput(inputId="modelo",label=h3("Elegir el modelo para realizar la prediccion:"),
+                              choices=c("Random Forest",
+                                        "Red Neuronal",
+                                        "Modelo Lineal Generalizado",
+                                        "Gradient Boosting Machine")),
                   width =4
                   ),
   
   mainPanel(
-    textOutput("result"),
-    imageOutput("resultImage")
+    p(h4("Con esta aplicacion, construida a partir de las notas de los alumnos en el primer cuatrimestre ,que nos proporciono la universidad, podemos predecir con una cierta
+      precision si un alumno va a abandonar la carrera en Ingenieria.")),
+    strong(h3("Nuestro objetivo no es desmotivar a nadie a dejar sus estudios, asi que:")),
+    strong(h2("¡ Mucha suerte y no dejen de persistir!")),
+    div(h2("Resultado:"),style="color:red"), 
+    h1(textOutput("result")),
+    uiOutput(outputId = "gif")
+    
+  
   ),
   position=c("left","right"),
   fluid=TRUE),
@@ -36,15 +51,28 @@ ui <- fluidPage(
   
 
 server<- function(input, output){
-  load("student.RData")
-  student$`Algebra exam 1`<-input$notaAlgebra1
-  student$`Algebra exam 2`<-input$notaAlgebra2
-  student$`Analisis exam 1`<-input$notaAnalisis
-  student$`IntroProg exam 1`<-input$notaProg
-  prediction<-predict(model_nnet,student)
-  output$result<-renderText()
+  state<-reactiveValues()
+ observe({
+state$result<-funcionPredictor(input$notaAlgebra1,input$notaAlgebra2,input$notaAnalisis,input$notaProg)
   
-  output$resultImage<-renderImage()
+})
+output$result<-renderText({
+  if(state$result==1){
+    paste("Este alumno DEJO la carrera")
+  }
+  else{
+    paste("Este alumno NO dejo la carrera")
+  }
+})
+output$gif<-renderUI({
+  if(state$result==1)
+    tags$img(src = 'https://media.giphy.com/media/1AgDsmf7ASiJr72ZZC/giphy.gif')
+  else
+    tags$img(src = 'https://media.giphy.com/media/jqqdRrgxFMuXQxTthe/giphy.gif' )
+})
+
+  
+  
   
 }
 
