@@ -8,33 +8,75 @@
 #
 
 library(shiny)
-
+library(shinythemes)
+library(magick)
+load("student.RData")
 # Define UI for application that draws a histogram
 ui <- fluidPage(
-
-    # Application title
-    titlePanel("Predictor de Desertores"),
-
-    # Sidebar with a slider input for number of bins 
+  titlePanel(strong(h1("Predictor de Desertores")), windowTitle = "Predictor"),
+  sidebarLayout(
+    
+    sidebarPanel (h6(numericInput(inputId = "notaAnalisis", label= h3("Ingrese su nota de Analisis:"),value=9,min=0,max=10, step=1)),
+                  numericInput(inputId = "notaAlgebra1", label= h3("Ingrese su nota del primer parcial de Algebra:"),value=9,min=0,max=10, step=1),
+                  numericInput(inputId = "notaAlgebra2", label= h3("Ingrese su nota del segundo parcial de Algebra:"),value=9,min=0,max=10, step=1),
+                  numericInput(inputId = "notaProg", label= h3("Ingrese su promedio de Intro. prog:"),value=9,min=0,max=10, step=1),
+                  actionButton(inputId="predecir",label="Predecir",icon=icon("arrow-alt-circle-right")),
+                  selectInput(inputId="modelo",label=h3("Elegir el modelo para realizar la prediccion:"),
+                              choices=c("Random Forest",
+                                        "Red Neuronal",
+                                        "Modelo Lineal Generalizado",
+                                        "Gradient Boosting Machine")),
+                  width =4
+                  ),
   
-        sidebarLayout(
-            sidebarPanel(
-                numericInput("numInput", "Ingresa tu Nota del parcial de Analisis:", value=0, min = 1, max = 10),
-                numericInput("numInput", "Ingresa tu Nota del primer parcial de Algebra:", value=0,min = 1, max = 10),
-                numericInput("numInput", "Ingresa tu Nota del  segundo parcial de Analisis:", value=0, min = 1, max = 10),
-                numericInput("numInput", "Ingresa tu Promedio de Introduccion a la Programacion:", value=0, min = 1, max = 10),
-                actionButton("MiBoton","Predecir")
-            
-                
-            ),
-            mainPanel(
-                p(strong("bold font "), em("italic font"))
-            
-        )
-    ),
-# Define server logic required to draw a histogram
+  mainPanel(
+    p(h4("Con esta aplicacion, construida a partir de las notas de los alumnos en el primer cuatrimestre ,que nos proporciono la universidad, podemos predecir con una cierta
+      precision si un alumno va a abandonar la carrera en Ingenieria.")),
+    strong(h3("Nuestro objetivo no es desmotivar a nadie a dejar sus estudios, asi que:")),
+    strong(h2("¡ Mucha suerte y no dejen de persistir!")),
+    div(h2("Resultado:"),style="color:red"), 
+    h1(textOutput("result")),
+    uiOutput(outputId = "gif")
+    
+  
+  ),
+  position=c("left","right"),
+  fluid=TRUE),
+  
+  
+  
+  title = "predictor",
+  theme= shinytheme("superhero")
+)
+  
+
+server<- function(input, output){
+  state<-reactiveValues()
+ observe({
+state$result<-funcionPredictor(input$notaAlgebra1,input$notaAlgebra2,input$notaAnalisis,input$notaProg)
+  
+})
+output$result<-renderText({
+  if(state$result==1){
+    paste("Este alumno DEJO la carrera")
+  }
+  else{
+    paste("Este alumno NO dejo la carrera")
+  }
+})
+output$gif<-renderUI({
+  if(state$result==1)
+    tags$img(src = 'https://media.giphy.com/media/1AgDsmf7ASiJr72ZZC/giphy.gif')
+  else
+    tags$img(src = 'https://media.giphy.com/media/jqqdRrgxFMuXQxTthe/giphy.gif' )
+})
+
+  
+  
+  
+}
 
 
 # Run the application 
-shinyApp(ui = ui)
+shinyApp(ui = ui, server= server)
 

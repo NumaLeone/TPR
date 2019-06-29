@@ -44,7 +44,7 @@ entry$OBT.SCHOLARSHIP[which(is.na(entry$OBT.SCHOLARSHIP))] <-"NO"
 
 
 wrong <-c("Cuatrimestral","Febrero", "Octubre", "Septiembre","Agosto","Directo","Diciembre")
-correct<-c("Cuatrimestral","Febrero","Octubre","Septiembre","Agosto","Directo","Diciembre" )
+correct<-c("Cuatri.","Feb.","Oct.","Sep.","Agost.","Directo","Dic" )
 entry$Entry <- sapply(entry$Entry,changeErrors,wrong,correct)
 
 wrong<- c("NA","N/A", "-","x","AUS","AUSENTE","ausente","Es pase","Desaprobado","2","5","6","7","8","9")
